@@ -1,0 +1,38 @@
+# Admin Panel - .htaccess
+# Routing and security for admin panel
+
+RewriteEngine On
+
+# Handle Authorization Header
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+# Allow direct access to assets (CSS, JS, images)
+RewriteCond %{REQUEST_URI} ^.*/assets/.*$
+RewriteRule ^ - [L]
+
+# Prevent direct access to includes and pages
+RewriteRule ^includes/ - [F,L]
+RewriteRule ^pages/ - [F,L]
+
+# Route all other requests to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/admin/index\.php$
+RewriteRule ^(.*)$ index.php?page=$1 [L,QSA]
+
+# Security - Block sensitive files
+<FilesMatch "\.(log|sql|ini|env|bak)$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+# Prevent directory listing
+Options -Indexes
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>

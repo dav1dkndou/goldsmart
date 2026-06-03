@@ -1,0 +1,7 @@
+# Block direct access to page files
+# All pages should be accessed through admin/index.php
+Order deny,allow
+Deny from all
+
+# Prevent directory listing
+Options -Indexes

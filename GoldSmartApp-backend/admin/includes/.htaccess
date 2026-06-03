@@ -1,0 +1,6 @@
+# Block direct access to include files
+Order deny,allow
+Deny from all
+
+# Prevent directory listing
+Options -Indexes
