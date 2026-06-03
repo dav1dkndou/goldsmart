@@ -1,0 +1,36 @@
+# Allow access to uploaded files
+<IfModule mod_rewrite.c>
+    RewriteEngine Off
+</IfModule>
+
+# Set proper MIME types for images
+<IfModule mod_mime.c>
+    AddType image/jpeg .jpg .jpeg
+    AddType image/png .png
+    AddType image/gif .gif
+    AddType image/webp .webp
+</IfModule>
+
+# Set proper MIME types for videos
+<IfModule mod_mime.c>
+    AddType video/mp4 .mp4 .m4v
+    AddType video/webm .webm
+    AddType video/ogg .ogv .ogg
+    AddType video/x-msvideo .avi
+    AddType video/quicktime .mov
+    AddType video/x-flv .flv
+    AddType video/x-matroska .mkv
+    AddType video/3gpp .3gp
+    AddType video/x-ms-wmv .wmv
+</IfModule>
+
+# Enable file downloads
+<FilesMatch "\.(mp4|webm|ogv|avi|mov|flv|mkv|3gp|wmv|m4v)$">
+    Header set Content-Disposition "inline"
+</FilesMatch>
+
+# Allow images to be displayed inline
+<FilesMatch "\.(jpg|jpeg|png|gif|webp)$">
+    Header set Content-Disposition "inline"
+    Header set Cache-Control "public, max-age=31536000"
+</FilesMatch>

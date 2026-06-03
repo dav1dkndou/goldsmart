@@ -1,0 +1,29 @@
+# Allow access to payment proof images
+<IfModule mod_rewrite.c>
+    RewriteEngine Off
+</IfModule>
+
+# Set proper MIME types
+<IfModule mod_mime.c>
+    AddType image/jpeg .jpg .jpeg
+    AddType image/png .png
+    AddType image/gif .gif
+    AddType image/webp .webp
+    AddType application/pdf .pdf
+</IfModule>
+
+# Enable file viewing
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|pdf)$">
+    Header set Content-Disposition "inline"
+</FilesMatch>
+
+# Prevent PHP execution in uploads
+<FilesMatch "\.(php|php3|php4|php5|phtml)$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>

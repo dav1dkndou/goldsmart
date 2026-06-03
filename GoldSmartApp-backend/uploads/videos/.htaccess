@@ -1,0 +1,39 @@
+# Allow access to video files
+<IfModule mod_rewrite.c>
+    RewriteEngine Off
+</IfModule>
+
+# Set proper MIME types for videos
+<IfModule mod_mime.c>
+    AddType video/mp4 .mp4 .m4v
+    AddType video/webm .webm
+    AddType video/ogg .ogv .ogg
+    AddType video/x-msvideo .avi
+    AddType video/quicktime .mov
+    AddType video/x-flv .flv
+    AddType video/x-matroska .mkv
+    AddType video/3gpp .3gp
+    AddType video/x-ms-wmv .wmv
+</IfModule>
+
+# Enable file streaming
+<FilesMatch "\.(mp4|webm|ogv|avi|mov|flv|mkv|3gp|wmv|m4v)$">
+    Header set Content-Disposition "inline"
+    Header set Accept-Ranges "bytes"
+</FilesMatch>
+
+# Prevent PHP execution in uploads
+<FilesMatch "\.(php|php3|php4|php5|phtml)$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+# Enable range requests for video streaming
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, OPTIONS"
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes
