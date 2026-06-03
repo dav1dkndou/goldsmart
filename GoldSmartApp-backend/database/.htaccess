@@ -1,0 +1,12 @@
+# Deny all access to database directory
+Order deny,allow
+Deny from all
+
+# Prevent directory listing
+Options -Indexes
+
+# Block all .sql files
+<FilesMatch "\.(sql)$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
