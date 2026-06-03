@@ -1,0 +1,12 @@
+# Deny all access to models directory
+Order deny,allow
+Deny from all
+
+# Prevent directory listing
+Options -Indexes
+
+# Block all file access
+<FilesMatch ".*">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
