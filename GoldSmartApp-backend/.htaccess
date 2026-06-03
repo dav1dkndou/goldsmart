@@ -1,0 +1,69 @@
+RewriteEngine On
+
+# Auto-detect and Force HTTPS (works on both localhost and hosting)
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} !^localhost [NC]
+RewriteCond %{HTTP_HOST} !^127\.0\.0\.1 [NC]
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Handle Authorization Header (Important for JWT)
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+# Allow app-ads.txt to be served directly (required by AdMob verification)
+RewriteRule ^app-ads\.txt$ - [L]
+
+# Allow .well-known directory (for assetlinks.json etc.)
+RewriteRule ^\.well-known/ - [L]
+
+# Security - Deny access to sensitive directories
+RewriteRule ^config/ - [F,L]
+RewriteRule ^core/ - [F,L]
+RewriteRule ^models/ - [F,L]
+RewriteRule ^controllers/ - [F,L]
+RewriteRule ^routes/ - [F,L]
+RewriteRule ^database/ - [F,L]
+RewriteRule ^\.htaccess$ - [F,L]
+RewriteRule ^\.git - [F,L]
+RewriteRule ^logs/ - [F,L]
+
+# Block access to sensitive file types
+<FilesMatch "\.(sql|log|ini|env)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Serve static files directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Route API requests to api/index.php
+RewriteRule ^api/?(.*)$ api/index.php [L,QSA]
+
+# Admin panel routing
+RewriteRule ^admin/?$ admin/index.php [L]
+RewriteRule ^admin/(.*)$ admin/index.php [L,QSA]
+
+# For root only (landing page)
+RewriteRule ^$ index.php [L]
+
+# Additional Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header unset X-Powered-By
+</IfModule>
+
+# Enable Gzip Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes
+
+# Set default character encoding
+AddDefaultCharset UTF-8

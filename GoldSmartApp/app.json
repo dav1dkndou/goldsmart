@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "GoldSmart",
+    "slug": "GoldSmart",
+    "version": "1.2.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.goldsmart"
+    },
+    "android": {
+      "package": "com.goldsmart",
+      "versionCode": 20,
+      "adaptiveIcon": {
+        "backgroundColor": "#D4AF37",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-image-picker",
+      "expo-av",
+      "expo-video"
+    ]
+  }
+}

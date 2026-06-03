@@ -1,0 +1,51 @@
+# GoldSmart Backend - gitignore
+
+# Logs
+logs/*.log
+logs/*.txt
+!logs/.htaccess
+!logs/.gitkeep
+
+# Config files (sensitive)
+config/database.php
+config/app.php
+.env
+.env.local
+
+# Uploads (user generated content)
+uploads/payment_proofs/*
+uploads/thumbnails/*
+uploads/videos/*
+!uploads/**/.htaccess
+!uploads/**/.gitkeep
+
+# Cache
+cache/*
+!cache/.gitkeep
+
+# Temporary files
+tmp/*
+temp/*
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Composer (if used later)
+vendor/
+composer.lock
+
+# Node modules (if used later)
+node_modules/
+
+# IMPORTANT: DO NOT IGNORE .htaccess files!
+# They are critical for security and routing
+!**/.htaccess
