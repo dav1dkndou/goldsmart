@@ -27,9 +27,12 @@ class VideoController extends Controller
     public function index(): void
     {
         $filters = [
-            'category' => filter_input(INPUT_GET, 'category', FILTER_SANITIZE_SPECIAL_CHARS),
-            'search' => filter_input(INPUT_GET, 'search', FILTER_SANITIZE_SPECIAL_CHARS)
+            'category' => $_GET['category'] ?? null,
+            'search' => $_GET['search'] ?? null,
+            'user_id' => isset($_GET['user_id']) ? (int) $_GET['user_id'] : null
         ];
+        
+        error_log('Video GET requested: ' . print_r($_GET, true) . ' Filters: ' . print_r($filters, true));
 
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT) ?: null;
         $perPage = filter_input(INPUT_GET, 'per_page', FILTER_VALIDATE_INT) ?: 15;
